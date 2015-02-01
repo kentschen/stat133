@@ -82,7 +82,7 @@ load("family.rda")
 
 # Create a new data frame 
 # << family.men >> : a data frame that is a subset of family, with only the men
-family.men <- subset(family,family$gender==m, TRUE)
+family.men <- subset(family, gender=="m")
 
 # Create a new data frame 
 # << family.young >> : a data frame, subset of family, with only people *under* 40
@@ -100,7 +100,8 @@ bmi <- (family$weight)/((family$height^2) * 703)
 
 # Create a new data frame
 # << family2 >> : family with an added column of BMI, with column name bmi
-family2 <- [,6]bmi
+family2 <- transform(family, newColumn=bmi)
+colnames(family2[6] <- "bmi")
 
 
 ##################################################################################
