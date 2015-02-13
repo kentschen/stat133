@@ -89,11 +89,9 @@ wr.name <- wr1500m$athlete[wr1500m$times == min(wr1500m$times)]
 # times_sec <- your code here
 # wr1500m <- your code here
 # plot( your code here )
+
 times_sec <- wr1500m$times + 180
-###wr1500m$times_sec <- times_sec
-###first way
 wr1500m <- data.frame(wr1500m, times_sec)
-###second way
 plot(wr1500m$year, wr1500m$times_sec, type = "s")
 
 # Q2b. Redo the plot using a date that incorporates the month as 
@@ -114,14 +112,6 @@ new_year= wr1500m$year + (wr1500m$month/12)
 wr1500m = data.frame(wr1500m, new_year)
 plot(wr1500m$new_year, wr1500m$times_sec, type = "s")
 
-##MonthWithoutNA <- wr1500m$month
-##MonthWithoutNA[is.na(wr1500m$month)] = 6
-##new_year = ((MonthWithoutNA$year) + (MonthWithoutNA$month / 12))
-##MonthWithoutNA = data.frame(MonthWithoutNA, new_year)
-##plot(MonthWithoutNA$new_year, MonthWithoutNA$times_sec, type = 's')
-
-#MonthWithoutNA <- wr1500m$month
-#MonthWithoutNA[is.na]
 
 # Q3. The current world record was set in 1998. If we want to
 # show that this record still stands in 2014, we could add a 
@@ -134,10 +124,10 @@ plot(wr1500m$new_year, wr1500m$times_sec, type = "s")
 # wr_1998 <- your code here
 # plot( your code here )
 # lines( your code here )
-plot(wr1500m$new_year, wr1500m$times_sec, type = "s",
-     xlim = c(min(wr1500m$new_year), 2020)
 
 wr_1998 = new_year[wr1500m$times == min(wr1500m$times)]
+plot(wr1500m$new_year, wr1500m$times_sec, type = "s",
+     xlim = c(min(wr1500m$new_year), 2020))
 lines(x = c(wr_1998, 2014 + 9/12), y = rep(wr1500m$times_sec[51], 2))
 
 # Q4. There are two times where the record stood for several
@@ -163,7 +153,7 @@ abline(v = wr_1998, col = "grey")
 text(wr_1944, wr1500m$times_sec[wr1500m$new_year == wr_1944],
      labels = wr1500m$athlete[wr1500m$new_year == wr_1944],
      adj = 1, cex = 0.7, col = "blue")
-text(wr_1998, wr1500m$times_sec[sr1500m$new_year == wr_1998],
+text(wr_1998, wr1500m$times_sec[wr1500m$new_year == wr_1998],
      labels = wr1500m$athlete[wr1500m$new_year == wr_1998],
      adj = 1, cex = 0.7, col = "red")
 
@@ -174,20 +164,19 @@ text(wr_1998, wr1500m$times_sec[sr1500m$new_year == wr_1998],
 # put your final version of the plotting commands below.
 plot(wr1500m$new_year, wr1500m$times_sec, type = "s",
      xlim = c(1892, 2015), xlab = "Year",
-     ylab = "Record Times in sec", main = "World Records in 1500m Men's Swimming")
+     ylab = "Record Times in sec", main = "1500m Men's Swimming World Record")
 
 abline(v = wr_1944, col = "grey")
 abline(v = wr_1998, col = "grey")
-points(x = c(wr_1998, 2012+9/12),
+points(x = c(wr_1998, (2012+9/12)),
        y = rep(wr1500m$times_sec[wr1500m$new_year == wr_1998], 2),
        type = "l")
-
-text(wr_1944-0.5, wr1500m$times_sec[wr1500m$new_year == wr_1944,
-  labels = wr1500m$athlete[wr1500m$new_year == wr_1944],
-  adj = 1, offset = 2, cex = 0.7, col = "blue")
+text(wr_1944-0.5, wr1500m$times_sec[wr1500m$new_year == wr_1944],
+    labels = wr1500m$athlete[wr1500m$new_year == wr_1944],
+    adj = 1, offset = 2, cex = 0.7, col = "blue")
 text(wr_1998-0.5, wr1500m$times_sec[wr1500m$new_year == wr_1998],
      labels = wr1500m$athlete[wr1500m$new_year == wr_1998],
-     adj = 1, offset = 2, cex = 0.7, col = "red")
+     adj = 1, offset = 2, cex = 0.7, col = "green")
 
 
 ## You have finised the first plot!!
@@ -244,10 +233,10 @@ plot(SO2012Ctry$pop, SO2012Ctry$GDP)
 # GDP_per_person <- your code here
 # SO2012Ctry <- your code here
 # symbols( your code here )
-GDP_per_person <- SO2012Ctry$GDP/SO2012Ctry$pop
+GDP_per_person <- (SO2012Ctry$GDP/SO2012Ctry$pop)
 SO2012Ctry <- data.frame(SO2012Ctry$GDP_per_person)
 symbols(log(SO2012Ctry$pop), log(SO2012Ctry$GDP_per_person),
-        circles = sqrt(SO2012Ctry$Total)/40, inches = FALSE)
+        circles = (sqrt(SO2012Ctry$Total)/40), inches = FALSE)
 
 
 # Q8. It appears that the countries with no medals are circles too.
@@ -259,7 +248,7 @@ symbols(log(SO2012Ctry$pop), log(SO2012Ctry$GDP_per_person),
 
 # your plotting code here
 with(SO2012Ctry[SO2012Ctry$Total > 0,],
-     symbols(log(pop), log(GDP_per_person)
+     symbols(log(pop), log(GDP_per_person),
              circles = sqrt(Total)/40, inches = FALSE))
 
 with(SO2012Ctry[SO2012Ctry$Total == 0, ],
@@ -273,7 +262,7 @@ with(SO2012Ctry[SO2012Ctry$Total == 0, ],
 with(SO2012Ctry[SO2012Ctry$Total > 0, ],
      symbols(log(p), log(GDP_per_person),
              circles = sqrt(Total)/40, inches = FALSE,
-             xlab = "log of population", ylab = "log of GDP per person",
+             xlab = "populatio logn", ylab = "GDP per person log",
              main = "Population vs. GDP per person"))
 
 with(SO2012Ctry[SO2012Ctry$Total == 0, ],
@@ -317,7 +306,7 @@ names(world)
 # world <- your code here
 # symbols( your code here )
 wonMedal = SO2012Ctry[SO2012Ctry$Total > 0,
-                      c("Total", "Country", "longitude", "latitude")]
+        c("Total", "Country", "longitude", "latitude")]
 
 world<- map(database = "world", fill = TRUE, col = "light grey")
 symbols(wonMedal$longtitude, wonMedial$latitude,
@@ -367,6 +356,8 @@ symbols(wonMedal$longtitude, wonMedal$latitude,
 # in the Olympics.
 
 # load( )
+load("London2012ALL_ATHLETES.rda")
+
 
 # There is one observation for each athlete. 
 # (Actually, about 20 athletes have two records if they
@@ -414,7 +405,7 @@ barplot(athTab, beside = FALSE)
 
 # what should beside be set to, T/F?
 # set.beside <- your answer
-set.beside <- T
+set.beside <- TRUE
 
 ### Barplot with beside = TRUE provides the easiest comparison. 
 
@@ -433,7 +424,7 @@ barplot(athTab2, beside = TRUE)
 # store your answer (1 or 2) in best.plot.
 
 # best.plot <- your answer
-best.plot <- 
+best.plot <- c(athTab2)
 
 # Q16. Notice that the bars are in alphabetical order by sport.
 # To facilitate comparisons, we might want to arrange
@@ -457,9 +448,9 @@ barplot(table(athletes$Sex, athletes$Sport)[, orderSport], beside = TRUE)
 # parameter can be added in the call to barplot().
 # Also find and use a parameter to shrink the text for these labels. 
 # Lastly, add a title to the plot.
-barplot(table(athletes$Sex, athletes$Sport)[, orderSport]
-        beside = TRUE, cex,names = 0.8, las = 3, ylim = c(0, 1200),
-        main = "Gender Participation 2012 Olympic Sports")
+barplot(table(athletes$Sex, athletes$Sport)[ , orderSport],
+        beside = TRUE, cex.names = 0.8, las = 3, ylim = c(0, 1200),
+        main = "Gender Participation in 2012 Olympic Sports")
 
 # This was the final version of the 4th plot.
 
