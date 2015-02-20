@@ -118,7 +118,7 @@ new_year = wr1500m$year + (wr1500m$month/12)
 wr1500m = data.frame(wr1500m, new_year)
 
 # Your qplot command:
-qplot(wr1500m$new_year, wr1500m$times_sec, geom="step") 
+qplot(new_year, wr1500m$times_sec, data = wr1500m, geom="step") 
 
 # Q3. The current world record was set in 1998. If we want to
 # show that this record still stands in 2015, we could add a 
@@ -134,6 +134,7 @@ wr_1998 = new_year[wr1500m$times == min(wr1500m$times)]
 WR = ggplot(wr1500m, aes(x = wr1500m$new_year, y = wr1500m$times_sec)) + geom_step()
 WR <- WR + geom_segment(aes(x = max(wr1500m$new_year), y = wr_1998, 
                                       xend = 2015, yend = wr_1998))
+
 
 # Q4. There are two times where the record stood for several
 # years - in 1944 and 1998. Let's make it easier to see these
@@ -214,10 +215,7 @@ SO2012Ctry <- transform(SO2012Ctry, GDP_per_person = GDP_per_person) #data.frame
 symbols(log(SO2012Ctry$pop), log(SO2012Ctry$GDP_per_person),
         circles = (sqrt(SO2012Ctry$Total)/40), inches = FALSE)
 # Your ggplot command
-GDPpp <- ggplot(SO2012Ctry, aes(x = SO2012Ctry$pop, y = SO2012Ctry$GDP_Per_Person)) + geom_point() + xlim(min(SO2012Ctry$pop), max(SO2012Ctry$pop))
-GDPpp <- GDPpp + scale_x_log10() + scale_y_log10()
-GDPpp <- GDPpp + geom_point(size = sqrt(SO2012Ctry$Total))
-  
+ggplot(SO2012Ctry, aes(x = log(GDP_per_person), y = log(pop))) + geom_point(aes(size = SO2012Ctry$Total), log = "xy")
 
 # We skip Q8 this time the plot above is already fine.
 # Q8. It appears that the countries with no medals are circles too....
@@ -229,8 +227,8 @@ GDPpp <- GDPpp + geom_point(size = sqrt(SO2012Ctry$Total))
 
 # Your ggplot command:
 top5 <- order(SO2012Ctry$Total, decreasing = TRUE) [1:5]
-GDPpp <- GDPpp + annotate("text", x = SO2012Ctry$pop[top5], y = SO2012Ctry$GDP_per_person[top5], label = SO2012Ctry$Country[top5], colour = "red", vjust = -1.5, hjust = 0.75)
-GDPpp <- GDPpp + ggtitle("GDP Per Person according to Country Population") + xlab("Population") + ylab("GDP Per Person")
+GDPpp <- gdp + annotate("text", x = SO2012Ctry$pop[top5], y = SO2012Ctry$GDP_per_person[top5], label = SO2012Ctry$Country[top5], colour = "red", vjust = -1.5, hjust = 0.75)
+GDPpp <- gdp + ggtitle("GDP Per Person according to Country Population") + xlab("Population") + ylab("GDP Per Person")
 
 ######################################
 # PLOT 3.
