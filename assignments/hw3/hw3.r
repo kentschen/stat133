@@ -242,8 +242,7 @@ library("maps")
 # Hint: look at map_data() and geom_polygon() in the ggplot2 manual.
 
 # Your ggplot commands:
-map = ggplot() + geom_polygon(data = map_data("world"), aes(x = "longitute", y = "latitute",
-                                                     group = "group", fill = "lightgrey"))
+ggplot() + borders("world", colour = "grey50", fill = "grey50")
 
 # Q11. Now add circles to the map where
 # the circles are proportional in area to the number of medals
@@ -254,13 +253,11 @@ map = ggplot() + geom_polygon(data = map_data("world"), aes(x = "longitute", y =
 # Hint: look at the function [geom_point()] and the parameters [aes] and [size]
 
 # wonMedal <- your code here
-wonMedal = SO2012Ctry[SO2012Ctry$Total > 0, c("Total", "Country", "longitude", "latitude")]
+wonMedal = SO2012Ctry[SO2012Ctry$Total > 0, 
+                      c("Total", "Country", "longitude", "latitude")]
 
 # Your ggplot commands here.
-map <- ggplot(wonMedal, aes(wonMedal$longtitude, wonMedal$latitude)) + geom_point()
-map <- map + borders("world", colour = "grey40", fill = "grey90")
-map <- map + geom_point(aes(size = sqrt(wonMedal$Total)), color = "gold")
-map <- map + ggtitle("Country's Medals") + xlab("Longtitude") + ylab("Latitude")
+ggplot() + borders("world", colour = "grey40", fill= "grey40") + geom_point(data = SO2012Ctry, aes(longitude, latitude), size = sqrt(SO2012Ctry$Total), colour = "gold")
 
 ## Not needed
 #Q12. Remake the plot and fill ......
@@ -291,8 +288,9 @@ load("London2012ALL_ATHLETES.rda")
 # Hint: Find the geom_*() function that makes a barplot then
 # find the option that allows you to put bars side-by-side (study the manual page)
 athTab <- table(athletes$Sex,  athletes$Sport)
+
 # make barplot with ggplot
-bplot = ggplot(data = athletes, aes(x = Sport, fill = Sex)) + geom_bar(position = "dodge")
+ggplot(athletes, aes(Sport, Sex)) + geom_bar(stat = "identity")
 
 ## Skip this question...
 #Q15. Remake the barplot above...
@@ -306,7 +304,8 @@ bplot = ggplot(data = athletes, aes(x = Sport, fill = Sex)) + geom_bar(position 
 # Lastly, add a title to the plot.
 
 # Your ggplot commands
-bplot2 = bplot + theme(axis.text.x = element_text(angle = 90)) + labs(title = "Sport vs. Sex")
+ggplot(athletes, aes(Sport, Sex)) + geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 90)) + labs(title = "Sex vs. Sport") 
 
 # This was the final version of the 4th plot.
 
@@ -320,22 +319,22 @@ load("rainfallCO.rda")
 
 # Create a variable 
 # max.rain : a vector of length 5 with the maximum rainfall at each station
-max.rain <- sapply(rain, max)
+max.rain <- lapply(rain, max)
 max.rain
 
 # Create a variable 
 # mean.rain : a vector of length 5 with the average rainfall at each station
-mean.rain <- sapply(rain, mean)
+mean.rain <- lapply(rain, mean)
 mean.rain
 
 # Create a variable 
 # sd.rain : a vector of length 5 with the standard deviation of the rainfall at each station
-sd.rain <- sapply(rain, sd)
+sd.rain <- lapply(rain, sd)
 sd.rain
   
 # Create a variable 
 # n1989.rain : a vector of length 5 with the number of measurements at each station in the year 1989 (use [day])
-n1989.rain <- sapply(day, length)
+n1989.rain <- lapply(day, length)
 n1989.rain
 
 
