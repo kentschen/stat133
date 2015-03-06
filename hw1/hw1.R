@@ -44,7 +44,7 @@ y <- seq(2, 200, by =2)
 
 # Create the variable
 # << z >> : a vector of length 20 with character entries, "hw1", "hw2", ..., "hw20"
-z <- paste0("hw", seq(1:20)
+z <- paste0("hw", seq(1:20))
 
 # Create the variable
 # << m >> : a vector of length 100 with entries from a standard normal distribution
