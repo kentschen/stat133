@@ -1,7 +1,7 @@
 # Please load in the dataset SFHousing-1.rda 
 # It will be required to perform the following tasks. The dataset includes data 
 # for houses in the city of Alameda.
-
+load("SFHousing-1.rda")
 
 
 # calculate the mean and median price of houses in Alameda. Store these as the
@@ -9,7 +9,8 @@
 
 # mean.price <- your code here
 # med.price <- your code here
-
+mean.price <- mean(housing$price)
+med.price <- median(housing$price)
 
 
 # For each house in the dataset, calculate the absolute difference between its
@@ -18,7 +19,7 @@
 # the number of observations in the dataset
 
 # price.diffs <- your code here
-
+price.diffs <- sapply(housing$price, function(p) abs(p-mean.price))
 
 # The variable br indicates the number of bedrooms in each house. Please create
 # two new data frames that are subsets of the original data frame, according to
@@ -28,8 +29,8 @@
 
 # housing.large <- your code here
 # housing.small <- your code here
-
-
+housing.large <- housing[housing$br > 3, ]
+housing.small <- housing[housing$br <= 3, ]
 
 
 # For each of your subsets, create a vector giving the price of each house. Name
@@ -37,6 +38,8 @@
 
 # housing.large.price <- your code here
 # housing.small.price <- your code here
+housing.large.price <- housing.large$price
+housing.small.price <- housing.small$price
 
 
 
@@ -54,6 +57,7 @@
 sqftByPrice <- function(price.cutoff, prices, lsqft) {
 
     # your code here
+    if(length(prices) != length(lsqft)) stop("prices and lsqft should be the same length")
 
 }
 
@@ -64,3 +68,5 @@ sqftByPrice <- function(price.cutoff, prices, lsqft) {
 # 2) a red line with intercept=169500 and slope=275
 # 3) plotting character set to 20
 
+plot(housing$bsqft, housing$price, main = "Housing price vs. Building sqft", pch = 20)
+abline(a=169500, b=275, col = 'red')

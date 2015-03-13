@@ -14,7 +14,7 @@
 # load() command to load the data into R/RStudio.
 
 # load( your code here )
-
+load("family.rda")
 
 
 # In the following exercises try to write your code to be as general as possible
@@ -30,6 +30,7 @@
 # consider makes and females separately).
 
 # OW_NHANES <- your code here
+OW_NHANES <- (family$gender == 'm' & family$bmi > 26) | (family$gender == 'f' & family$bmi > 25)
 
 
 # Q2.  Here is an alternative way to create the same vector that introduces some
@@ -42,21 +43,21 @@
 # is 26 and second element is 25.
 
 # OWval <- your code here
-
+OWval <- c(26, 25)
 
 # Create the OW_limit vector by subsetting OWval by position, where the
 # positions are the numeric values in the gender variable (i.e. use as.numeric()
 # to coerce the factor vector storing gender to a numeric vector)
 
 # OW_limit <- your code here
-
+OW_limit <- OWval[as.numeric(family$gender)]
 
 # Finally, us OW_limit and bmi to create the desired logical vector, called
 # OW_NHANES2 which, like OW_NHANES, is TRUE if a member of family is obese and
 # FALSE otherwise
 
 # OW_NHANES2 <- your code here
-
+OW_NHANES2 <- OW_limit <- family$bmi
 
 # Q3.  Use the vector OW_limit and each person's height to find the weight that
 # they would have if their bmi was right at the limit (26 for men and 25 for
@@ -68,7 +69,7 @@
 
 # Now calculate OW_weight 
 # OW_weight <- your code here
-
+OW_weight <- OW_limit * ((2.54/100 * family$height)^2) * 2.2
 
 # Make a plot of actual weight against the weight at which they would be
 # overweight using the plot function.  use the abline() function to include a
@@ -76,7 +77,8 @@
 
 # plot( your code here )
 # abline( your code here )
-
+plot(family$weight, OW_weight)
+abline(a = 0, b = 1, col = 'red')
 
 #PART 2.  San Framcisco Housing Data The datafile SFHousing.rda is in your hw2
 #folder.  These data contain information about sales in the San Francisco Bay
@@ -85,29 +87,34 @@
 #the data into R/RStudio.
 
 # load( your code here )
-
+load("SFHousing.rda")
 
 # Q4. (not graded) Use the following functions to examine the dataset objects(),
 # class(), dim(), head(), names(), summary().
-
+class(housing)
+dim(housing)
+head(housing)
+names(housing)
+summary(housing)
 # How many cities are in the dataset, store the answer in the variable n.cities.
 
 # n.cities <- your code here
-
+n.cities <- nrow(housing)
 
 # How many house sales are included in the dataset?  Store the answer in
 # the variable n.housesale.
 
 # n.housesale <- your code here
-
+n.housesale <- nrow(housing)
 
 # How many of these house sales were in Berkeley?
 # n.housesale.Berk <- sum(housing$city=="Berkeley")
+n.housesale.Berk <- sum(housing$city=="Berkeley")
 
 # Create a vector with the names of all variables in housing.
 
 # all.housing.variable <- your code here
-
+all.housing.variable <- names(housing)
 
 
 
@@ -121,12 +128,14 @@
 # one with the names of the variables we want to use.
 
 # local.cities <- your code here
+local.cities <- c("Albany", "Berkeley", "Piedmont", "Emeryville")
 
 # some.housing.variables <- your code here
+some.housing.variables <- c("city", "zip", "price", "br", "bsqft", "year")
 
 # Create the smaller data frame
 # BerkArea <- your code here
-
+BerkArea <- housing[housing$city %in% local.cities, some.housing.variables]
 
 # Q6.  We are interested in making plots of price and size of house, but before
 # we do this we will further subset the data frame to remove the unusually large
@@ -136,11 +145,14 @@
 # 3999 oobservations.
 
 # BerkArea <- your code here
+BerkArea <- BerkArea[(BerkArea$price <= quantile(BerkArea$price, = 0.99)) 
+                     & (BerkArea$bsqft <= quantile(BerkArea$bsqft = 0.99, na.rm = TRUE)), ]
 
 # Q7.  Create a new vector that is called pricePsqft by dividing the sale price
 # by the square footage Add this new variable to the data frame.
 
 # BerkArea$pricePsqft <- your code here
+BerkArea$pricePsqft <- (BerkArea$price / BerkArea$bsqft)
 
 #  Q8.
 # Create a vector called br5 that is the number of bedrooms in the house, except
@@ -148,7 +160,8 @@
 # bedrooms then br5 will be 5. Otherwise it will be the number of bedrooms.
 
 # br5 <- your code here
-
+br5 <- BerkArea$br
+br5[BerkArea$br > 4] <- 5
 
 
 # Q 9.  Use the rainbow function to create a vector of 5 colors, call this
@@ -156,14 +169,14 @@
 # will describe what this does later)
 
 # rCols <- your code here
-
+rCols <- rainbow(5, alpha = 0.25)
 
 # Create a vector called brCols of 3999 colors where each element's color
 # corresponds to the number of bedrooms in the br5.  For example, if the element
 # in br5 is 3 then the color will be the third color in rCols.
 
 # brCols <- your code here
-
+brCols <- rCols[5]
 
 ######
 # We are now ready to make a plot!  Try out the following code (examine each
@@ -189,6 +202,15 @@ legend(legend = 1:5, fill = rCols, "topright")
 
 # plot( your code here )
 # legend( your code here )
+
+plot(pricePsqft ~ year,
+     data = BerkArea, 
+     main = "Housing prices in the Berkeley Area",
+     xlab = "Size of house (square ft)",
+     ylab = "Price per square foot",
+     col = brCols, pch = 19, cex = 0.5)
+
+legend(legend = 1:5, fill = rCols, "topright")
 
 ## Food for thought (not graded):
 ## Examine the plot.  Do you see any interesting features.

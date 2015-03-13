@@ -1,7 +1,7 @@
 # Please load in the Kaiser babies dataset included in your midterm1
 # directory. This dataset includes information on mothers and the children born
 # to those mothers. You will need this data to perform the tasks for this quiz.
-
+load("KaiserBabies.rda")
 
 # calculate the mean and standard deviation of birthweights (bwt) for all
 # observations in the dataset. Store these as the variables <mean.bwt> and
@@ -9,8 +9,8 @@
 
 # mean.bwt <- your code here
 # sd.bwt <- your code here
-
-
+mean.bwt <- mean(infants$bwt)
+sd.bwt <- sd(infants$bwt)
 
 # For each observation in the dataset, subtract <mean.bwt> from the observations
 # bwt and divide by <sd.bwt>. Store this as the variable <std.bwts>. Note that
@@ -18,7 +18,7 @@
 # observations in the dataset.
 
 # std.bwts <- your code here
-
+std.bwts <- (infants$bwt - mean.bwt)/(sd.bwt)
 
 
 # Create the following two subsets and store them as variables with the
@@ -28,7 +28,8 @@
 
 # subset.nonsmoke <- your code here
 # subset.smoke <- your code here
-
+subset.nonsmoke <- subset(infants, infants$smoke == "Never",)
+subset.smoke <- subset(infants, infants$smoke == "Now" ,)
 
 
 # For each of your subsets, create a vector giving the age of the mother. Store
@@ -36,7 +37,8 @@
 
 # subset.smoke.age <- your code here
 # subset.nonsmoke.age <- your code here
-
+subset.smoke.age <- subset.smoke$age
+subset.nonsmoke.age <- subset.nonsmoke$age
 
 
 # Implement the function gestByAge. Your function should take the following
@@ -51,15 +53,22 @@
 # whose value in <ages> is strictly less that <age.cutoff>.
 
 gestByAge <- function(age.cutoff, ages, gestation){
-
-    # your code here
-
+  # your code here
+  mean(gestation[ ages < age.cutoff ], na.rm=T)    
 }
+
 
 
 # Please produce a plot of birthweight (y-axis) against gestation period. Your
 # plot should contain the following features:
 # 1) the title: "Birthweight v gestation"
 # 2) points of mothers whose smoking status is never should be colored red
+
+never.smoke <- (infants$smoke == "Never")
+plot(infants$gestation[!never.smoke], infants$bwt[!never.smoke], 
+     xlab='gestation', 
+     ylab = 'bwt', 
+     main = 'Birthweight v gestation')
+points(infants$gestation[never.smoke], infants$bwt[never.smoke], col = 'red')
 
 
