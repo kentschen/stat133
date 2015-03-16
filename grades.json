@@ -19,5 +19,6 @@
     "login": "kentschen", 
     "name": "Kent Chen", 
     "status": "enrolled", 
-    "url": "git@github.com:kentschen/stat133.git"
+    "url": "git@github.com:kentschen/stat133.git", 
+    "section": "lab1"
 }
