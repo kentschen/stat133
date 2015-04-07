@@ -1,0 +1,24 @@
+{
+    "email": "kentchen@berkeley.edu", 
+    "github_name": "kentschen", 
+    "grades": {
+        "hw1": {
+            "note": "", 
+            "hash": "eaaccd7ebb742c102a894af890dc7daa9e52c025", 
+            "earned": 0, 
+            "possible": 20, 
+            "penalty": 0, 
+            "parts": {
+                "hw1": {
+                    "possible": 20, 
+                    "earned": 0
+                }
+            }
+        }
+    }, 
+    "login": "kentschen", 
+    "name": "Kent Chen", 
+    "status": "enrolled", 
+    "url": "git@github.com:kentschen/stat133.git", 
+    "section": "lab1"
+}
