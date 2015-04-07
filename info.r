@@ -1,5 +1,0 @@
-name = "Kent Chen"
-SID = "23546263"
-email = "kentchen@berkeley.edu"
-github_name = "kentschen"
-status = "enrolled"
