@@ -14,6 +14,19 @@
                     "earned": 0
                 }
             }
+        }, 
+        "hw4": {
+            "note": "", 
+            "hash": "0f4af4cf83a4122bf95afdf9d194992661ad866e", 
+            "earned": 16, 
+            "possible": 20, 
+            "penalty": 0, 
+            "parts": {
+                "hw4": {
+                    "possible": 20, 
+                    "earned": 16
+                }
+            }
         }
     }, 
     "login": "kentschen", 
