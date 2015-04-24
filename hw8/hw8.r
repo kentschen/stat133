@@ -2,11 +2,11 @@ xUnique = 1:5
 trueCoeff = c(0, 1, 1)
 
 getData = function(coefs = c(0, 1, 1), xs = 1:5, dupl = 10,
-                   sd = 5, seed=2222){
+                   sd = 5, seed = 2222){
   ### This function creates the artificial data
   set.seed(seed)
   x = rep(xs, each = dupl)
-  y = coefs[1] + coefs[2]*x + coefs[3] * x^2 + 
+  y = coefs[1] + coefs[2] * x + coefs[3] * x^2 + 
       rnorm(length(x), 0, sd)
   return(data.frame(x, y))
 }
@@ -19,7 +19,7 @@ genBootY = function(x, y, rep = TRUE){
   ### You can assume that the xs are sorted
   ### Hint use tapply here!
   
-
+  return(unlist(tapply(y,x, function(z) sample(z, length(z), replace = TRUE))))
 }
 
 genBootR = function(fit, err, rep = TRUE){
@@ -27,9 +27,10 @@ genBootR = function(fit, err, rep = TRUE){
   ### Add the errors to the fit to create a y vector
   ### Return a vector of y values the same length as fit
   ### HINT: It can be easier to sample the indices than the values
-  
- 
+
+  return(fit + sample(err, length(fit), replace = FALSE))
 }
+
 
 fitModel = function(x, y, degree = 1){
   ### use the lm function to fit a line of a quadratic 
@@ -37,8 +38,12 @@ fitModel = function(x, y, degree = 1){
   ### y and x are numeric vectors of the same length
   ### Return the coefficients as a vector 
   ### HINT: Take a look at the repBoot function to see how to use lm()
-  
- 
+  if (degree == 1) {
+    coeff = lm(formula = y~x)
+  }
+  else{
+    coeff = lm(formula = y~x + I(x^2))
+  }
   return(coeff)
 }
 
@@ -49,13 +54,28 @@ oneBoot = function(data, fit = NULL, degree = 1){
 
  
   ### Use fitModel to fit a model to this bootstrap Y 
- 
+  if (is.null(fit)){
+    values = genBootY(data$x, data$y)
+  }
+  else{
+    values = genBootR(fit[,1], fit[,2])
+  }
+  return(fitModel(data$x, values, degree))
 }
 
 repBoot = function(data, B = 1000){
   
   ### Set up the inputs you need for oneBoot, i.e.,
   ### create errors and fits for line and quadratic
+  line = lm(y~x, data = data)
+  quad = lm(y~x + I(x^2), data = data)
+  
+  line_error = data$y - line$fitted
+  quad_error = data$y - quad$fitted
+  
+  line_fit = matrix(data = c(line$fitted, line_error), ncol = 2)
+  quad_fit = matrix(data = c(quad$fitted, quad_error), ncol = 2)
+  
 
   ### replicate a call to oneBoot B times
   ### format the return value so that you have a list of
@@ -68,6 +88,22 @@ repBoot = function(data, B = 1000){
   ### Replicate a call to oneBoot B times for 
   ### each of the four conditions
   
+  lwlf = numeric()
+  lwolf = numeric()
+  qwqf = numeric()
+  qwoqf = numeric()
+  
+  for(i in 1:B){
+    lwlf = c(lwlf, oneBoot(data, line_fit, 1)$coef)
+    lwolf = c(lwolf, oneBoot(data, NULL, 1)$coef)
+    qwqf = c(qwqf, oneBoot(data, quad_fit, 2)$coef)
+    qwoqf = c(qwoqf, oneBoot(data, NULL, 2)$coef)
+  }
+  
+  lwl.df = matrix(lwlf, nrow = 2)
+  lwol.df = matrix(lwolf, nrow = 2)
+  qwq.df = matrix(qwqf, nrow = 3)
+  qwoq.df = matrix(qwoqf, nrow = 3)
   
   ### Format the return value so that you have a list of
   ### length 4, one for each set of coefficients
@@ -76,6 +112,7 @@ repBoot = function(data, B = 1000){
   ### fit is for a line or a quadratic
   ### Return this list
   
+  coeff = list(lwl.df, lwol.df, qwq.df, qwoq.df)
   return(coeff)
 } 
 
@@ -86,6 +123,8 @@ bootPlot = function(x, y, coeff, trueCoeff){
   ### that generated the data
   
   ### Make a scatter plot of data
+  
+  plot(x, y)
 
   ### Add lines or curves for each row in coeff
   ### Use transparency
@@ -94,9 +133,18 @@ bootPlot = function(x, y, coeff, trueCoeff){
   ### Have a look at ?mapply for details.
   ### This can be done in ggplot2 or base graphics.
   
+  if(nrow(coeff) == 2){
+    sapply(1:ncol(coeff), function(x) abline(coef = coeff[,x], col = rgb(1, 0, 0, alpha = 0.1)))
+  }
+  else{
+    sapply(1:ncol(coeff), function(z) curve((function (x) coeff[1,z]+coeff[2,z]*x+coeff[3,z]*x^2)(x), col = rgb(1, 0, 0, alpha = 0.1), add = TRUE))
+  }
+  
   ### Use trueCoeff to add true line/curve - 
   ###  Make the true line/curve stand out
-
+  
+  curve((function (x) trueCoeff[1]+trueCoeff[2]*x+trueCoeff[3]*x^2)(x), add = TRUE, col = 'blue')
+  
 }
 
 ### Run your simulation by calling this function
