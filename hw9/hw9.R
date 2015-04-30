@@ -69,6 +69,7 @@ load("WorldBank.RData")
 # country, year, fertility rate, life expectancy, population and region.
 
 # WorldDat <- < your code here>
+WorldDat <- 
 
 # As you can see, there are missing values in this data frame.
 # Get rid of all rows with one or more NAs.
