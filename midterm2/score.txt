@@ -1,0 +1,8 @@
+x: should be length 1000 -1
+y -1
+mw: wrong value  -2
+f2: use >= 72  -1
+line 108: wrong color options -1
+line 115: wrong plot  -2
+
+Score: 25/33
