@@ -1,0 +1,19 @@
+Total: 12/20
+
+Function 1
+4/5
+You need “\\.” rather than “.”
+
+Function 2
+5/5
+
+Function 3
+1/5
+gsub is the right function to use but you will need a separate call for each
+replacement e.g. chvec <-  gsub(‘he’, ‘she’, chvec)
+
+Function 4
+2/5
+Call unlist(strsplit(chvec, “”) and then table .
+
+
