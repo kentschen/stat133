@@ -71,8 +71,8 @@ y <- paste("k",(1:10), sep = "")
 # Hint: you can e.g. use [sample()], you will need to set all 4 arguments
 set.seed(42)
 #z <- <your code here>
-z <- sample((1:5000), F, T)
-  
+z <- sample(x = list(TRUE, FALSE), size = 5000, replace = TRUE, prob = list(0.3, 0.7))
+
 # [1 pt]
 # Create [v], a numeric vector with the results of 100 rolls of a dice,
 # i.e. each element is one of the numbers 1 through 6, with equal probability.
@@ -318,8 +318,18 @@ standardizeVar <- function(m, cols = TRUE){
 ## }
 
 PermDiff <- function(cases, controls, k=5000){
-  
-  return mean(cases)-mean(controls)
+  vec = vector(length = k)
+  for(i in 1:k) {
+    cases.length = length(cases)
+    controls.length = length(conrols)
+    total.length = cases.length + controls.length
+    temp.total = c(cases, controls)
+    temp.total = sample(x = temp.total, replace = FALSE, size = total.length)
+    temp.cases = temp.total[c(1:cases.length)]
+    temp.controls = temp.total[c(cases.length + 1: total.length)]
+    vec[i] <- mean(temp.cases) - mean(temp.controls)
+  }
+  return(vec)
 }
 
 
@@ -357,11 +367,22 @@ set.seed(123456)
 #  <your code here>
 #}
 
-function <- NumJackpot(k, B){
-  replicate(B, sum(sample(1:19)))
-  n.jackpot <-
-  if (i=1) <- 
-    i = i + 1
+numJackpot <- function(k, B){
+  toRtn = vector(length = B)
+  for(i in 1:B) {
+    ctr = 0
+    jackpot = sample((1:19), size = 3, replace = FALSE)
+    jackpot = sort(jackpot)
+    for(j in 1:k) {
+      rand.nums = sample((1:19), size = 3, replace = FALSE)
+      rand.nums = sort(rand.nums)
+      if(identical(jackpot, rand.nums)) {
+        ctr = ctr + 1
+      }
+    }
+    toRtn[i] = ctr
+  }
+  return(toRtn)
 }
 
 
@@ -369,8 +390,10 @@ function <- NumJackpot(k, B){
 # Plot a histogram of the output from NumJackpot (i.e. four histograms)
 
 # <your plot here>
-for(i in )
-hist()
+par(mfrow=c(2,2))
+for(i in (10000, 50000, 100000, 500000)) {
+  hist(numJackpot(i, 5000))
+}
 
 
 #################################################################
@@ -400,7 +423,7 @@ text3 <- grep("ta", phrases)
 # Create a vector [text4] that has the first 3 characters of each element in phrases
 
 #text4 <- <your code here>
-text4 <- unlist(strsplit(phrases, split= "^..."))
+text4 <- sapply(phrases, substr, 1, 3)
 
 # [2 pts]
 # Create a vector [text5] that has all the elements in phrases that have a punctuation mark 
@@ -416,12 +439,12 @@ phrases2 <- gsub("a", "@", phrases)
 dna <- c("AGGATGATT", "AGCCTTAGC", "AGAGAGCT", "AGTTTCGTA", "CGTGGTGC", "CTAAGTGAC", "GTGGGACC", "GGTAGAGAC", "TAGATTACC")
 # Create a vector [match1] with the index for all matches to "A*T" or "G*T"
 # match1 <- <your code here>
-match1 <- grep("A*T", "G*T", dna)
+match1 <- unlist(union(grep("A*T", dna), grep("G*T", dna)))
 
 # [2 pts]
 # Create a vector [dna2] where you have removed all entries whose length is not a multiple of 3
 # dna2 <- <your code here>
-dna2 <- unlist( -grep(".+((dna){3,})", dna)
+dna2 <- dna[c(grep("^(...)+$", dna))]
                
 
 #################################################################
