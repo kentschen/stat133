@@ -87,7 +87,10 @@ v <- replicate(100, sum(sample(1:6), size = 1/6, replace = T))
 # and stores the alphabet (try typing letters)
 set.seed(2718)
 #w <- <your code here>
-w <- paste(letters, 1:26)
+w <- vector(length = 26)
+for(i in 1:26) {
+  w[i] = paste(letters[1], letters[i], sep = '')
+}
   
 # [1 pt]
 # Create [m], a matrix of size 10x10 with entries that are 
@@ -200,12 +203,19 @@ abline(v=2.1)
 # Please redo the plot, but this time put two plots side by side (hint: before plotting set par(mfrow=...) )
 # The left plot should include only data from 1960, the right one only from 2014.
 par(mfrow=...)
+for(i in (1960, 2014)) {
+  plot(x = WorldBank$fertility.rate[WorldBank$year == i], 
+       y = WorldBank$life.expectancy[WorldBank$year == i], 
+       pch = ".", xlab = "Fertility rate", 
+       ylab = "Life Expectancy", col = 1 + as.numeric(WorldBank$region))
+  abline(v = 2.1)
+}
 
 # [4 pts]
 # Make a histogram of GDP only for observations where the lending rating is "IDA"
 # The width of the bars should be approximately 250 (use breaks to set how many bars)
 # Add an x-axis label and a title.
-hist(WorldBank$GDP, prob = T, xlab = "GDP")
+hist(WorldBank$GDP[WorldBank$lending == "IDA"], breaks = 24, xlab = "GDP", main = "GDP of lending rating IDA")
 
 
 
@@ -239,7 +249,17 @@ max.diff.rain <- abs(diff((i-(i+1)), length(1:5)))
 # number of rain days (i.e. rain > 0) as a function of total days
 
 #prop.rain <- <your code here>
-prop.rain <- sapply(rain, 1:5)
+sumRain <- function(x) {
+  total = 0
+  for(i in 1:length(x)) {
+    if (x[i] != 0) {
+      total = total + 1
+    }
+  }
+  return (total / length(x))
+}
+
+prop.rain <- sapply(rain, sumRain)
 
 
 # [3 pts]
@@ -247,7 +267,7 @@ prop.rain <- sapply(rain, 1:5)
 # in a separate panel (there will be one empty panel)
 # use an apply statment to the the plotting
 par(mfrow=c(2,3))
-
+sapply(rain, hist)
 
 #################################################################
 ##### PART IV : functions [20 pts]
