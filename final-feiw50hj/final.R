@@ -130,7 +130,7 @@ cw3 <- mean(ChickWeight$Time == "0")
 # [1 pt]
 # Create [cw4] a random subset of 200 ChickWeight observations (any 200)
 #cw4 <- <your code here>
-cw4 <- ChickWeight[sample(200)]
+#cw4 <- ChickWeight[sample(200)]
 
 # for the next two tasks you will use the data frame infants (size 1236x15)
 # LEAVE AS IS:
@@ -175,7 +175,7 @@ boxplot(mtcars$mpg ~ mtcars$cyl)
 # Hint: the regression coefficients are stored in [coef] in the lm object and you can use [abline()] to
 # add a line to a plot
 plot(lm(mtcars$qsec ~ mtcars$hp))
-abline(coef)
+#abline(coef)
 
 # [3 pt]
 # Make a scatterplot of [disp] (on y-axis) versus [wt] 
@@ -202,8 +202,8 @@ abline(v=2.1)
 # Do you see patterns in the plot?  You just plotted these variables for all years between 1960 and 2014.
 # Please redo the plot, but this time put two plots side by side (hint: before plotting set par(mfrow=...) )
 # The left plot should include only data from 1960, the right one only from 2014.
-par(mfrow=...)
-for(i in (1960, 2014)) {
+#par(mfrow=...)
+for(i in c(1960, 2013)) { #Andy
   plot(x = WorldBank$fertility.rate[WorldBank$year == i], 
        y = WorldBank$life.expectancy[WorldBank$year == i], 
        pch = ".", xlab = "Fertility rate", 
@@ -288,8 +288,8 @@ sapply(rain, hist)
 #
 #}
 
-function <- GenNorm(mean, sd, n, plot.hist){
-  rnorm <- 
+GenNorm <- function(mean, sd, n, plot.hist){
+  #rnorm <- 
 }
 
 # [6 pts]
@@ -410,9 +410,9 @@ numJackpot <- function(k, B){
 # Plot a histogram of the output from NumJackpot (i.e. four histograms)
 
 # <your plot here>
-par(mfrow=c(2,2))
-for(i in (10000, 50000, 100000, 500000)) {
-  hist(numJackpot(i, 5000))
+par(mfrow=c(2,2)) #Andy 
+for(i in c(100, 500, 1000, 5000)) {
+  hist(numJackpot(i, 50))
 }
 
 
