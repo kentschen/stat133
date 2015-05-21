@@ -51,7 +51,7 @@
 # the hw3 directory in the file WR1500MeterMen.rda.
 
 # load the data
-setwd("~/src/stat133/assignments/hw2")
+#setwd("~/src/stat133/assignments/hw2")
 load("WR1500MeterMen.rda")
 
 # The name of the object loaded is wr1500m
@@ -234,7 +234,7 @@ plot(SO2012Ctry$pop, SO2012Ctry$GDP)
 # SO2012Ctry <- your code here
 # symbols( your code here )
 GDP_per_person <- (SO2012Ctry$GDP/SO2012Ctry$pop)
-SO2012Ctry <- data.frame(SO2012Ctry$GDP_per_person)
+SO2012Ctry <- data.frame(SO2012Ctry, GDP_per_person)
 symbols(log(SO2012Ctry$pop), log(SO2012Ctry$GDP_per_person),
         circles = (sqrt(SO2012Ctry$Total)/40), inches = FALSE)
 
@@ -252,7 +252,7 @@ with(SO2012Ctry[SO2012Ctry$Total > 0,],
              circles = sqrt(Total)/40, inches = FALSE))
 
 with(SO2012Ctry[SO2012Ctry$Total == 0, ],
-     points(log(pop), log(GDP_person), pch = "."))
+     points(log(pop), log(GDP_per_person), pch = "."))
 
 
 # Q9. Make the plot information rich by adding axis labels, 
@@ -260,7 +260,7 @@ with(SO2012Ctry[SO2012Ctry$Total == 0, ],
 # with the country name. Use text() to do this.
 
 with(SO2012Ctry[SO2012Ctry$Total > 0, ],
-     symbols(log(p), log(GDP_per_person),
+     symbols(log(pop), log(GDP_per_person),
              circles = sqrt(Total)/40, inches = FALSE,
              xlab = "populatio logn", ylab = "GDP per person log",
              main = "Population vs. GDP per person"))
@@ -269,7 +269,7 @@ with(SO2012Ctry[SO2012Ctry$Total == 0, ],
      points(log(pop), log(GDP_per_person), pch = "."))
 
 # top5 <- order( your code here )
-top5 = order(SO2012Ctry$Total, decreasing == TRUE)[1:5]
+top5 = order(SO2012Ctry$Total, decreasing = TRUE)[1:5]
 # your plotting code here, including a new call to text() 
 text(log(SO2012Ctry$pop)[top5], log(SO2012Ctry$GDP_per_person)[top5],
      labels = SO2012Ctry$ISO[top5],
@@ -297,7 +297,7 @@ world = map(database = "world", fill = TRUE, col = "light grey")
 # adjust the size of the circles if necessary
 
 # Check what variables you have in the dataframe using names().
-names(world)
+#names(world)
 
 # pull out the contries that won at least one medal (you will need at least
 # the contries longitude, latitude and Total.)
@@ -309,7 +309,8 @@ wonMedal = SO2012Ctry[SO2012Ctry$Total > 0,
         c("Total", "Country", "longitude", "latitude")]
 
 world<- map(database = "world", fill = TRUE, col = "light grey")
-symbols(wonMedal$longtitude, wonMedial$latitude,
+
+symbols(wonMedal$longitude, wonMedal$latitude,
         circles = sqrt(wonMedal$Total)/1.5,
         add = TRUE, inches = FALSE)
 
@@ -331,7 +332,7 @@ library("RColorBrewer")
 # display.brewer.all( your code here )
 # brewer.pal( your code here )
 display.brewer.all(type = "qual")
-brewer.pal(6, "Set2")
+#brewer.pal(6, "Set2")
 
 
 # myGold <- your selected color
@@ -339,7 +340,7 @@ myGold = "#FEB24CAA"
 #world <- your code here
 #symbols( your code here )
 world = map(database = "world", fill = TRUE, col = "light grey")
-symbols(wonMedal$longtitude, wonMedal$latitude,
+symbols(wonMedal$longitude, wonMedal$latitude,
         circles = sqrt(wonMedal$Total)/1.5,
         add = TRUE, inches = FALSE, bg = myGold)
 
