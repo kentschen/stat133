@@ -34,7 +34,7 @@ phrases <- c("dog", "doggy", "den", "good boy", "Really?", "How much?", "Only $8
 # Create a vector [text1] that lists the elements in phrases 
 # where the SECOND TO LAST character is "o" (lower case o).
 #text1 <- <your code here>
-text1 <- grep("^(o)$", phrases, values = T)
+text1 <- grep("^(o)$", phrases, value = T)
 
 # Create a vector [text2] that lists the elements in phrases that
 # START with the letter "d"
@@ -44,7 +44,7 @@ text2 <- grep("(d)$", phrases, value=T)
 
 # Create a variable [no.punct] that equals the number of phrases with a punctuation mark in it.
 # no.punct <- <your code here>
-no.punct <- length(no.punct_phrases)
+# no.punct <- length(no.punct_phrases)
 
 # Create a vector [even] that is of length 1000 and has the entries
 # "even2", "even4", ...
@@ -90,10 +90,10 @@ updateDate <- function(dates, old.yr) {
 # Write a function called [abbreviate] that takes in a vector of strings and returns
 # a vector of the same length with only the first [k] characters from the orignal vector entries.
 
-abbreviate <- function(vector, k){
-  output = ()
-  for (i in seq(1, vector))
-    print(output)
-  if(k=1)
-
-}
+#abbreviate <- function(vector, k){
+#  output = ()
+#  for (i in seq(1, vector))
+#    print(output)
+#  if(k=1)
+#
+#}
